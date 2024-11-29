@@ -9,7 +9,7 @@ import Foundation
 
 extension Pokemon {
     var background: String {
-        switch self.types!.first {
+        switch self.types![0] {
         case "normal", "grass", "electric", "poison", "fairy":
             return "normalgrasselectricpoisonfairy"
         case "rock", "ground", "steel", "fighting", "ghost", "dark", "psychic":
@@ -34,7 +34,7 @@ extension Pokemon {
             Stat(id: 3, label: "Defense", value: self.defense),
             Stat(id: 4, label: "Special Attack", value: self.specialAttack),
             Stat(id: 5, label: "Special Defence", value: self.specialDefense),
-            Stat(id: 5, label: "Speed", value: self.speed)
+            Stat(id: 6, label: "Speed", value: self.speed)
         ]
     }
     
