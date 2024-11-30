@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {    
+struct ContentView: View {
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Pokemon.id, ascending: true)],
         animation: .default
@@ -24,51 +24,51 @@ struct ContentView: View {
     @StateObject private var pokemonVM = PokemonViewModel(controller: FetchController())
     
     var body: some View {
-        //        switch pokemonVM.status {
-        //        case .success:
-        NavigationStack {
-            List(filterByFavorites ? favorites : pokedex) { pokemon in
-                NavigationLink(value: pokemon) {
-                    AsyncImage(url: pokemon.sprite) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    } placeholder: {
-                        ProgressView()
-                    }
-                    .frame(width: 100, height: 100)
-                    
-                    Text(pokemon.name!.capitalized)
-                    
-                    if pokemon.favorite {
-                        Image(systemName: "star.fill")
-                            .foregroundStyle(.yellow)
-                    }
-                }
-            }
-            .navigationTitle("Pokédex")
-            .navigationDestination(for: Pokemon.self, destination: { pokemon in
-                PokemonDetail()
-                    .environmentObject(pokemon)
-            })
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        withAnimation {
-                            filterByFavorites.toggle()
+        switch pokemonVM.status {
+        case .success:
+            NavigationStack {
+                List(filterByFavorites ? favorites : pokedex) { pokemon in
+                    NavigationLink(value: pokemon) {
+                        AsyncImage(url: pokemon.sprite) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                        } placeholder: {
+                            ProgressView()
                         }
-                    } label: {
-                        Label("Filter By favorites", systemImage: filterByFavorites ? "star.fill" : "star")
+                        .frame(width: 100, height: 100)
+                        
+                        Text(pokemon.name!.capitalized)
+                        
+                        if pokemon.favorite {
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.yellow)
+                        }
                     }
-                    .font(.title)
-                    .foregroundStyle(.yellow)
+                }
+                .navigationTitle("Pokédex")
+                .navigationDestination(for: Pokemon.self, destination: { pokemon in
+                    PokemonDetail()
+                        .environmentObject(pokemon)
+                })
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            withAnimation {
+                                filterByFavorites.toggle()
+                            }
+                        } label: {
+                            Label("Filter By favorites", systemImage: filterByFavorites ? "star.fill" : "star")
+                        }
+                        .font(.title)
+                        .foregroundStyle(.yellow)
+                    }
                 }
             }
+            
+        default:
+            ProgressView()
         }
-        
-        //        default:
-        //            ProgressView()
-        //        }
     }
 }
 
